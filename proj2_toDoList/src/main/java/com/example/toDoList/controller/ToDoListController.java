@@ -21,6 +21,31 @@ public class ToDoListController {
         return toDoListService.getAllToDoLists();
     }
 
+    @GetMapping("/{id}")
+    public ToDoList getOneToDoList(@PathVariable Long id) {
+        return toDoListService.getOneToDoList(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ToDoList> updateTodo(@PathVariable Long id, @RequestBody Map<String,String> body){
+        String title = body.get("title");
+        ToDoList todo = toDoListService.updateToDoList(id, title);
+        if (todo != null){
+            return ResponseEntity.ok(todo);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}/completed")
+    public ResponseEntity<ToDoList> updateCompleted(@PathVariable Long id){
+        ToDoList todo = toDoListService.updateCompleted(id);
+        if (todo != null){
+            return ResponseEntity.ok(todo);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+
     @PostMapping
     public ToDoList createTodo(@RequestBody Map<String, String> body) {
         String title = body.get("title");
@@ -28,7 +53,7 @@ public class ToDoListController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTodo(@PathVariable int id) {
+    public ResponseEntity<String> deleteTodo(@PathVariable Long id) {
         boolean removed = toDoListService.deleteToDo(id);
         if (removed) {
             return ResponseEntity.ok("Todo deleted");
