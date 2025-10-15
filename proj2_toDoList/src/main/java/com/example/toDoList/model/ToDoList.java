@@ -1,17 +1,27 @@
 package com.example.toDoList.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class ToDoList {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String title;
     private boolean completed;
 
-    public ToDoList(int id, String title, boolean completed) {
-        this.id = id;
+    public ToDoList() {}
+
+    public ToDoList(String title, boolean completed) {
         this.title = title;
         this.completed = completed;
     }
 
-    public int getId() { return id; }
+    public Long getId() { return id; }
     public String getTitle() { return title; }
     public boolean isCompleted() { return completed; }
 
